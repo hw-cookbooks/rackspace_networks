@@ -1,10 +1,10 @@
-require_plugin "rackspace"
+require_plugin 'rackspace'
 
 def get_networks
-  status, stdout, stderr = run_command(:no_status_check => true, :command => 'xenstore-ls vm-data/networking')
+  status, stdout, stderr = run_command(no_status_check: true, command: 'xenstore-ls vm-data/networking')
   if status == 0
-    stdout.split("\n").map{|l| l.split('=').first.strip }.map do |item|
-      _status, _stdout, _stderr = run_command(:no_status_check => true, :command => "xenstore-read vm-data/networking/#{item}")
+    stdout.split("\n").map { |l| l.split('=').first.strip }.map do |item|
+      _status, _stdout, _stderr = run_command(no_status_check: true, command: "xenstore-read vm-data/networking/#{item}")
       if status == 0
         Yajl::Parser.new.parse(_stdout)
       else
